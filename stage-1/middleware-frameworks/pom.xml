@@ -30,6 +30,9 @@
         <module>my-distributed-lock</module>
         <module>my-rpc</module>
         <module>my-http-server</module>
+        <module>my-gateway</module>
+        <module>my-fault-tolerance</module>
+        <module>my-cdi</module>
     </modules>
 
     <properties>
