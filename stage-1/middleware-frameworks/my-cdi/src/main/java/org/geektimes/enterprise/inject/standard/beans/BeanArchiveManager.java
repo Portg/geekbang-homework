@@ -16,6 +16,7 @@
  */
 package org.geektimes.enterprise.inject.standard.beans;
 
+import org.geektimes.commons.collection.util.CollectionUtils;
 import org.geektimes.commons.lang.util.ClassPathUtils;
 import org.geektimes.commons.reflect.util.ClassUtils;
 import org.geektimes.commons.reflect.util.SimpleClassScanner;
@@ -29,7 +30,7 @@ import org.geektimes.enterprise.inject.util.Decorators;
 import org.geektimes.enterprise.inject.util.Qualifiers;
 import org.geektimes.enterprise.inject.util.Scopes;
 import org.geektimes.enterprise.inject.util.Stereotypes;
-import org.geektimes.interceptor.util.Interceptors;
+import org.geektimes.interceptor.util.InterceptorUtils;
 
 import javax.enterprise.context.*;
 import javax.enterprise.inject.Stereotype;
@@ -50,7 +51,7 @@ import static java.lang.System.getProperty;
 import static java.util.Collections.*;
 import static java.util.Objects.requireNonNull;
 import static org.geektimes.commons.collection.util.CollectionUtils.newLinkedHashSet;
-import static org.geektimes.commons.collection.util.CollectionUtils.ofSet;
+import static org.geektimes.commons.collection.util.CollectionUtils.asSet;
 import static org.geektimes.commons.lang.util.StringUtils.endsWith;
 import static org.geektimes.commons.lang.util.StringUtils.isBlank;
 import static org.geektimes.enterprise.inject.standard.beans.BeanArchiveType.EXPLICIT;
@@ -59,7 +60,7 @@ import static org.geektimes.enterprise.inject.standard.beans.BeanDiscoveryMode.A
 import static org.geektimes.enterprise.inject.standard.beans.BeanDiscoveryMode.NONE;
 import static org.geektimes.enterprise.inject.standard.beans.xml.BeansReader.BEANS_XML_RESOURCE_NAME;
 import static org.geektimes.enterprise.inject.util.Decorators.isDecorator;
-import static org.geektimes.interceptor.util.Interceptors.isInterceptorClass;
+import static org.geektimes.interceptor.util.InterceptorUtils.isInterceptorClass;
 
 /**
  * Bean archives Manager
@@ -188,7 +189,7 @@ public class BeanArchiveManager {
     }
 
     public BeanArchiveManager addSyntheticStereotype(Class<? extends Annotation> stereotype, Annotation... stereotypeDef) {
-        syntheticStereotypes.put(stereotype, ofSet(stereotypeDef));
+        syntheticStereotypes.put(stereotype, CollectionUtils.asSet(stereotypeDef));
         return this;
     }
 
@@ -202,7 +203,7 @@ public class BeanArchiveManager {
     }
 
     public BeanArchiveManager addSyntheticInterceptorBinding(Class<? extends Annotation> bindingType, Annotation[] bindingTypeDef) {
-        syntheticInterceptorBindings.put(bindingType, ofSet(bindingTypeDef));
+        syntheticInterceptorBindings.put(bindingType, CollectionUtils.asSet(bindingTypeDef));
         return this;
     }
 
@@ -260,7 +261,7 @@ public class BeanArchiveManager {
 
     private void discoverInterceptorClasses(Set<Class<?>> discoveredTypes) {
         filterAndHandleDiscoveredTypes(discoveredTypes,
-                Interceptors::isInterceptorClass,
+                InterceptorUtils::isInterceptorClass,
                 this::addInterceptorClass);
     }
 
@@ -363,7 +364,7 @@ public class BeanArchiveManager {
     }
 
     public boolean isInterceptorBinding(Class<? extends Annotation> annotationType) {
-        return Interceptors.isInterceptorBinding(annotationType) ||
+        return InterceptorUtils.isInterceptorBinding(annotationType) ||
                 // Extensions
                 syntheticInterceptorBindings.containsKey(annotationType);
     }

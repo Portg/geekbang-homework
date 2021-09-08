@@ -16,23 +16,26 @@
  */
 package org.geektimes.interceptor;
 
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
+import javax.interceptor.InterceptorBinding;
+import java.lang.annotation.Annotation;
+import java.util.Comparator;
 
 /**
- * {@link InterceptorRegistry}
+ * The {@link Comparator} of {@link InterceptorBinding Inteceptor Binding} annotation using the
+ * {@link String} representing of {@link Annotation#toString() annotation}
  *
  * @author <a href="mailto:mercyblitz@gmail.com">Mercy</a>
  * @since 1.0.0
  */
-public class InterceptorRegistryTest {
+class InterceptorBindingComparator implements Comparator<Annotation> {
 
-    @Test
-    public void test() {
-        InterceptorRegistry registry = InterceptorRegistry.getInstance();
-        for (int i = 0; i < 99; i++) {
-            assertEquals(registry, InterceptorRegistry.getInstance());
-        }
+    final static Comparator<Annotation> INSTANCE = new InterceptorBindingComparator();
+
+    private InterceptorBindingComparator() {
+    }
+
+    @Override
+    public int compare(Annotation o1, Annotation o2) {
+        return o1.toString().compareTo(o2.toString());
     }
 }

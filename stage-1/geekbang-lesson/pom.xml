@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.geekbang.projects</groupId>
+        <artifactId>stage-1</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <groupId>org.geekbang</groupId>
+    <artifactId>geekbang-lesson</artifactId>
+    <version>${revision}</version>
+    <name>geekbang-lesson</name>
+    <packaging>pom</packaging>
+
+    <properties>
+        <!--dubbo版本-->
+        <dubbo.version>2.7.13</dubbo.version>
+        <!--resilience4j-->
+        <resilience4j.version>1.7.0</resilience4j.version>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <modules>
+        <module>dubbo-filter</module>
+    </modules>
+
+</project>
