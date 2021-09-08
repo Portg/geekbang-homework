@@ -11,9 +11,8 @@ import java.util.function.Supplier;
 
 import static org.apache.dubbo.common.constants.CommonConstants.CONSUMER;
 import static org.apache.dubbo.common.constants.CommonConstants.PROVIDER;
-import static org.apache.dubbo.common.constants.FilterConstants.VALIDATION_KEY;
 
-@Activate(group = {CONSUMER, PROVIDER}, value = VALIDATION_KEY, order = 10000)
+@Activate(group = {CONSUMER, PROVIDER}, value = "bulkhead", order = 10000)
 public class BulkheadFilter implements Filter {
 
     private final BulkheadConfig config;
