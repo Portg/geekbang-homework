@@ -1076,7 +1076,7 @@ public class Clients {
 - META-INF/dubbo/org.apache.dubbo.rpc.Filter
 
   ```
-  bulkheadFilter=org.geektimes.bulkhead.filter.BulkheadFilter
+  bulkhead=org.geektimes.bulkhead.filter.BulkheadFilter
   ```
 
   

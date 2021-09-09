@@ -1,1 +1,1 @@
-bulkheadFilter=org.geektimes.bulkhead.filter.BulkheadFilter
+bulkhead=org.geektimes.bulkhead.filter.BulkheadFilter
