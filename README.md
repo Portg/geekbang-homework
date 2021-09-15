@@ -1013,7 +1013,7 @@ public class Clients {
 
 ## 9月4日 课后作业（第十周）
 
-#### 作业
+### 作业
 
 通过 Dubbo Filter 机制实现 Dubbo 服务提供方限流，利用resilience4j 来整合实现
 
@@ -1079,4 +1079,77 @@ public class Clients {
   bulkhead=org.geektimes.bulkhead.filter.BulkheadFilter
   ```
 
-  
+## 9月11日 课后作业（第十一周）
+
+### 作业
+
+利用 Spring Boot 自动装配特性，编写一个自定义 Starter，
+规则如下：
+
+- 利用 @EnableAutoConfiguration 加载一个自定义 Confugration 类
+- Configuration 类装配条件需要它非 Web 应用
+  - WebApplicationType = NONE
+- Configuration 类中存在一个 @Bean 返回一个输出 HelloWorld ApplicationRunner 对象
+
+1、pom.xml依赖
+
+```xml
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-autoconfigure</artifactId>
+</dependency>
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-configuration-processor</artifactId>
+  <optional>true</optional>
+</dependency>
+```
+
+2、自定义ApplicationRunner对象`HelloWorldRunnerBean.java`
+
+```java
+@Component
+public class HelloWorldRunnerBean implements ApplicationRunner {
+    private static final Logger logger = LoggerFactory.getLogger(HelloWorldRunnerBean.class);
+
+    @Override
+    public void run(ApplicationArguments arg0) throws Exception {
+        String strArgs = Arrays.stream(arg0.getSourceArgs()).collect(Collectors.joining(" "));
+        logger.info("Application started with arguments:" + strArgs);
+    }
+}
+```
+
+3、自定义 Confugration 类`HelloWorldAutoConfiguration.java`
+
+```java
+@Configuration
+@EnableAutoConfiguration
+@ConditionalOnNotWebApplication
+public class HelloWorldAutoConfiguration {
+
+    @Bean
+    public HelloWorldRunnerBean helloWorldRunnerBean() {
+        return new HelloWorldRunnerBean();
+    }
+}
+```
+
+4、测试类`SpringContextTest.java`
+
+```java
+@RunWith(SpringJUnit4ClassRunner.class)
+public class SpringContextTest {
+
+    private final ApplicationContextRunner contextRunner = new ApplicationContextRunner();
+
+    @Test
+    public void run() throws Exception {
+        this.contextRunner.withUserConfiguration(HelloWorldAutoConfiguration.class).run(context -> {
+            HelloWorldRunnerBean helloWorldRunnerBean = context.getBean(HelloWorldRunnerBean.class);
+            helloWorldRunnerBean.run(new DefaultApplicationArguments(new String[]{"Hello", "World"}));
+        });
+    }
+}
+```
+

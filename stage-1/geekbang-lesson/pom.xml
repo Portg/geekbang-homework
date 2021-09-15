@@ -27,6 +27,7 @@
 
     <modules>
         <module>dubbo-filter</module>
+        <module>helloworld-spring-boot-autoconfigure</module>
     </modules>
 
 </project>
